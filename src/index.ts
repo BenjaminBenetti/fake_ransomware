@@ -2,17 +2,38 @@ import { app, BrowserWindow } from 'electron';
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
 
 function createWindows() {
+  let mainWindow = null;
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    height: 600,
-    width: 800,
-  });
+  if (process.env.NODE_ENV === "development")
+  {
+    mainWindow = new BrowserWindow({
+      width: 1920,
+      height: 1080,
+      webPreferences: {
+         nodeIntegration: true
+     }
+    });
+
+    //Open dev tools
+    mainWindow.webContents.openDevTools();
+  }
+  else
+  {
+    mainWindow = new BrowserWindow({
+      frame: false,
+      center: true,
+      movable: false,
+      alwaysOnTop: true,
+      fullscreen: true,
+      webPreferences: {
+         nodeIntegration: true
+     }
+    });
+  }
 
   // and load the index.html of the app.
   mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished

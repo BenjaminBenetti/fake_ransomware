@@ -6,7 +6,8 @@ body {
   color: var(--color-text);
 
   width: 100%;
-  margin: 32px 0 0 0;
+  height: 100vh;
+  margin: 0;
 
   display: flex;
   justify-content: center;
@@ -52,13 +53,41 @@ body {
     }
   }
 
-  .side-terminal {
+  #side-terminal {
     flex: 0 1 400px;
-    height: 480px;
+
+    height: 484px;
+    width: 400px;
     margin: 100px 100px 0 0;
+    padding: 16px;
+
+    font-family: monospace;
 
     color: var(--color-terminal-text);
     border: 2px dashed var(--color-terminal-text);
     background-color: var(--color-terminal-background);
+
+    .terminal-text {
+      width: 100%;
+      height: calc(100% - 24px);
+
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+    }
+
+    .encrypting-msg {
+      overflow: hidden;
+
+      @keyframes pulse-dots{
+        0% {width:92px;}
+        25% {width:102px;}
+        50% {width:112px;}
+        75% {width:128px;}
+        100% {width:128px;}
+      }
+      animation: pulse-dots 1s infinite;
+    }
   }
 }

@@ -1,31 +1,44 @@
-/**
- * This file will automatically be loaded by webpack and run in the "renderer" context.
- * To learn more about the differences between the "main" and the "renderer" context in
- * Electron, visit:
- *
- * https://electronjs.org/docs/tutorial/application-architecture#main-and-renderer-processes
- *
- * By default, Node.js integration in this file is disabled. When enabling Node.js integration
- * in a renderer process, please be aware of potential security implications. You can read
- * more about security risks here:
- *
- * https://electronjs.org/docs/tutorial/security
- *
- * To enable Node.js integration in this file, open up `main.js` and enable the `nodeIntegration`
- * flag:
- *
- * ```
- *  // Create the browser window.
- *  mainWindow = new BrowserWindow({
- *    width: 800,
- *    height: 600,
- *    webPreferences: {
- *      nodeIntegration: true
- *    }
- *  });
- * ```
- */
+import fs from 'fs';
+import os from 'os';
+import path from 'path';
 
+// style imports
 import './index.scss';
 
-console.log('👋 This message is being logged by "renderer.js", included via webpack');
+const terminal = document.querySelector("#side-terminal .terminal-text");
+
+function sleep(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function encryptHomeDir()
+{
+  listFilesToTerminalRecursive(await fs.promises.opendir(os.homedir()));
+}
+
+async function listFilesToTerminalRecursive(dir: fs.Dir)
+{
+  const files = [];
+  for await (const dirent of dir) {
+    terminal.innerHTML += `<div>${dirent.name}</div>`;
+    files.push(dirent);
+
+    if (dirent.isFile())
+    {
+      const stats = await fs.promises.stat(path.join(dir.path, dirent.name));
+      await sleep(Math.min(stats.size/8192, 20000));
+    }
+    else
+    {
+      await sleep(100);
+    }
+  }
+
+  const directories = files.filter((dirent) => dirent.isDirectory());
+  for (const dirent of directories)
+  {
+    await listFilesToTerminalRecursive(await fs.promises.opendir(path.join(dir.path, dirent.name)));
+  }
+}
+
+encryptHomeDir();
