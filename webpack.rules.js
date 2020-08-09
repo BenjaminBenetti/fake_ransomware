@@ -25,12 +25,12 @@ module.exports = [
     }
   },
   {
-  test: /\.scss$/,
-  loaders: [
-    "style-loader",
-    "css-loader",
-    "postcss-loader",
-    "sass-loader"
-  ]
-},
+    test: /\.scss$/,
+    loaders: [
+      "style-loader",
+      "css-loader",
+      "postcss-loader",
+      "sass-loader"
+    ]
+  },
 ];

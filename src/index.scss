@@ -1,93 +1,102 @@
 @import "src/scss/_color.scss";
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background-color: var(--color-background);
-  color: var(--color-text);
-
-  width: 100%;
-  height: 100vh;
   margin: 0;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  .row0 {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-text);
 
-  .hacked-message {
-    max-width: 40%;
+    width: 100%;
+    height: calc(100vh - 64px);
 
-    .text-pop {
-      color: var(--color-text-pop);
-      font-weight: bold;
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    .fake-key {
-      color: var(--color-dark);
-      background-color: var(--color-white);
-      width: fit-content;
-    }
+    .hacked-message {
+      max-width: 40%;
 
-    li {
-      margin-top: 4px;
-    }
-
-    a {
-      // I know... I'm sick
-      @keyframes blinkLink {
-        0% {color: var(--color-background)}
-        49% {color: var(--color-background)}
-        50% {color: var(--color-link-text)}
-        100% {color: var(--color-link-text)}
+      .text-pop {
+        color: var(--color-text-pop);
+        font-weight: bold;
       }
 
-      animation: blinkLink 2s infinite;
+      .fake-key {
+        color: var(--color-dark);
+        background-color: var(--color-white);
+        width: fit-content;
+      }
 
-      &.email-link {
-        color: var(--color-white);
-        animation: none;
+      li {
+        margin-top: 4px;
+      }
+
+      a {
+        // I know... I'm sick
+        @keyframes blinkLink {
+          0% {color: var(--color-background)}
+          49% {color: var(--color-background)}
+          50% {color: var(--color-link-text)}
+          100% {color: var(--color-link-text)}
+        }
+
+        animation: blinkLink 2s infinite;
+
+        &.email-link {
+          color: var(--color-white);
+          animation: none;
+        }
+      }
+
+      hr {
+        border: solid 1px var(--color-divider);
       }
     }
 
-    hr {
-      border: solid 1px var(--color-divider);
+    #side-terminal {
+      flex: 0 1 400px;
+
+      height: 484px;
+      width: 400px;
+      margin: 100px 100px 0 0;
+      padding: 16px;
+
+      font-family: monospace;
+
+      color: var(--color-terminal-text);
+      border: 2px dashed var(--color-terminal-text);
+      background-color: var(--color-terminal-background);
+
+      .terminal-text {
+        width: 100%;
+        height: calc(100% - 24px);
+
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        overflow: hidden;
+      }
+
+      .encrypting-msg {
+        overflow: hidden;
+
+        @keyframes pulse-dots{
+          0% {width:92px;}
+          25% {width:102px;}
+          50% {width:112px;}
+          75% {width:128px;}
+          100% {width:128px;}
+        }
+        animation: pulse-dots 1s infinite;
+      }
     }
   }
 
-  #side-terminal {
-    flex: 0 1 400px;
-
-    height: 484px;
-    width: 400px;
-    margin: 100px 100px 0 0;
-    padding: 16px;
-
-    font-family: monospace;
-
-    color: var(--color-terminal-text);
-    border: 2px dashed var(--color-terminal-text);
-    background-color: var(--color-terminal-background);
-
-    .terminal-text {
-      width: 100%;
-      height: calc(100% - 24px);
-
+  .row1 {
       display: flex;
-      flex-direction: column;
       justify-content: flex-end;
-      overflow: hidden;
-    }
-
-    .encrypting-msg {
-      overflow: hidden;
-
-      @keyframes pulse-dots{
-        0% {width:92px;}
-        25% {width:102px;}
-        50% {width:112px;}
-        75% {width:128px;}
-        100% {width:128px;}
-      }
-      animation: pulse-dots 1s infinite;
-    }
+      margin: 16px 16px 0 0;
   }
 }

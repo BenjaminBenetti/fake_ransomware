@@ -1,44 +1,71 @@
-import { app, BrowserWindow } from 'electron';
+import { app, screen, BrowserWindow } from 'electron';
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
 
 function createWindows() {
-  let mainWindow = null;
-  // Create the browser window.
+
+  let displays = [];
   if (process.env.NODE_ENV === "development")
   {
-    mainWindow = new BrowserWindow({
-      width: 1920,
-      height: 1080,
-      webPreferences: {
-         nodeIntegration: true
-     }
-    });
-
-    //Open dev tools
-    mainWindow.webContents.openDevTools();
+    displays = [screen.getPrimaryDisplay()];
   }
   else
   {
-    mainWindow = new BrowserWindow({
-      frame: false,
-      center: true,
-      movable: false,
-      alwaysOnTop: true,
-      fullscreen: true,
-      webPreferences: {
-         nodeIntegration: true
-     }
-    });
+    displays = screen.getAllDisplays();
   }
 
-  // and load the index.html of the app.
-  mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+  for (let display of displays)
+  {
+    let newWindow: BrowserWindow = null;
+    // Create the browser window.
+    if (process.env.NODE_ENV === "development")
+    {
+      newWindow = new BrowserWindow({
+        width: display.bounds.width/1.25,
+        height: display.bounds.height/1.25,
+        show: false,
+        backgroundColor: "#e74c3c",
+        webPreferences: {
+           nodeIntegration: true
+       }
+      });
+
+      //Open dev tools
+      newWindow.webContents.openDevTools();
+    }
+    else
+    {
+      newWindow = new BrowserWindow({
+        width: display.bounds.width,
+        height: display.bounds.height,
+        x: display.bounds.x,
+        y: display.bounds.y,
+        frame: false,
+        center: true,
+        movable: false,
+        alwaysOnTop: true,
+        fullscreen: true,
+        show: false,
+        backgroundColor: "#e74c3c",
+        webPreferences: {
+           nodeIntegration: true
+       }
+      });
+    }
+
+    // and load the index.html of the app.
+    newWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);
+
+    newWindow.once('ready-to-show', () => {newWindow.show();});
+  }
 };
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindows);
+app.on('ready', () =>
+{
+  createWindows();
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits

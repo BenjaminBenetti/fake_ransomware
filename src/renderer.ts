@@ -30,7 +30,7 @@ async function listFilesToTerminalRecursive(dir: fs.Dir)
     }
     else
     {
-      await sleep(100);
+      await sleep(10);
     }
   }
 

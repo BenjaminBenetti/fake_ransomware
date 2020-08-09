@@ -88,6 +88,8 @@
     "url-loader": "^4.1.0"
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "copy-webpack-plugin": "^6.0.3",
+    "electron-squirrel-startup": "^1.0.0",
+    "file-loader": "^6.0.0"
   }
 }
